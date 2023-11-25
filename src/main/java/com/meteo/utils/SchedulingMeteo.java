@@ -62,6 +62,7 @@ public class SchedulingMeteo {
         List<String> list = new ArrayList<>();
         list.add("93031");
         list.add("92025");
+        list.add("93078");
         return list;
     }
 
