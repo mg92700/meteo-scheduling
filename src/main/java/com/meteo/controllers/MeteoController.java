@@ -24,4 +24,5 @@ public class MeteoController {
         log.info("Request all meteo");
         return meteoService.all();
     }
+
 }

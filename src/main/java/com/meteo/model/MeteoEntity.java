@@ -7,8 +7,6 @@ import com.meteo.dto.RootDto;
 import jakarta.persistence.*;
 import lombok.Data;
 
-
-
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -16,45 +14,29 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Table(name = "meteo")
 @Data
 public class MeteoEntity {
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
     private static final AtomicInteger count = new AtomicInteger(-0);
 
     private String city;
-    
-    
+
     private String probarain;
 
-    
-    
     private String probafrost;
 
-    
-    
     private String probafog;
 
-    
-    
     private String probawind70;
 
-
-    
-    
     private String probawind100;
 
-
-    
-    
     private String tsoil1;
 
-
-    
-    
     private String temp2m;
 
     private String insee;
-
 
     private LocalDateTime datesaving;
 

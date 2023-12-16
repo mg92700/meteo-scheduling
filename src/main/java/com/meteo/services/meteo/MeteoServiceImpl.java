@@ -26,9 +26,10 @@ public class MeteoServiceImpl implements MeteoService{
         return meteoRepository.findAll();
     }
 
-
-
-
+    @Override
+    public void saveAll(List<MeteoEntity> meteoEntities) {
+        meteoRepository.saveAll(meteoEntities);
+    }
 
 
 }

@@ -9,4 +9,6 @@ public interface MeteoService {
 
     List<MeteoEntity> all();
 
+    void saveAll(List<MeteoEntity> meteoEntities);
+
 }
