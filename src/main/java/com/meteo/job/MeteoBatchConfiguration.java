@@ -48,7 +48,7 @@ public class MeteoBatchConfiguration extends DefaultBatchConfiguration {
     public Step step(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) {
         return new StepBuilder("step", jobRepository).
                 <MeteoEntity, MeteoEntity>chunk(500, platformTransactionManager)
-                .reader(new JsonMeteoItemReader(objectMapper))
+                .reader(new MeteoItemReader(objectMapper))
                 .processor(new MeteoItemProcessor())
                 .writer(new MeteoItemWriter(meteoService))
                 .build();
