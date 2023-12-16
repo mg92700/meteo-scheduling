@@ -23,3 +23,5 @@ spring:
       enabled: false
   main:
     allow-bean-definition-overriding: true
+    banner:
+      location: classpath:banner.txt
