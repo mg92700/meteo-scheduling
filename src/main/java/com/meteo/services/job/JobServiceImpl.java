@@ -1,4 +1,4 @@
-package com.meteo.services.meteo;
+package com.meteo.services.job;
 
 
 import org.springframework.batch.core.Job;
@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
-public class JobService {
+public class JobServiceImpl implements JobService{
 
     @Autowired
     private JobLauncher jobLauncher;
@@ -27,7 +27,7 @@ public class JobService {
     private ApplicationContext context;
 
     @Async
-    public void invokeJob(String jobName) throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
+    public void invokeJob(String jobName) throws JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException, JobInstanceAlreadyCompleteException {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
         final String date = dateFormat.format(new Date());

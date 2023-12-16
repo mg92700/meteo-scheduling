@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MeteoServiceImpl implements MeteoService{
@@ -30,6 +29,5 @@ public class MeteoServiceImpl implements MeteoService{
     public void saveAll(List<MeteoEntity> meteoEntities) {
         meteoRepository.saveAll(meteoEntities);
     }
-
 
 }
