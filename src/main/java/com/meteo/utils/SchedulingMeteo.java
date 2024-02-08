@@ -75,7 +75,7 @@ public class SchedulingMeteo {
         allOf.join(); // Attendre la fin de toutes les tâches asynchrones
     }
 
-    private void sendGetForCity(String insee) throws IOException {
+    public void sendGetForCity(String insee) throws IOException {
         String urlApi = env.getProperty("api.url") + env.getProperty("api.token") + "&insee=" + insee;
         URL obj = new URL(urlApi);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
