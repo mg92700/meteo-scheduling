@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="create_table_meteo" author="admin" >
+        <createTable tableName="meteo">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="city" type="varchar(255)"/>
+            <column name="probarain" type="varchar(255)"/>
+            <column name="probafrost" type="varchar(255)"/>
+            <column name="probafog" type="varchar(255)"/>
+            <column name="probawind70" type="varchar(255)"/>
+            <column name="probawind100" type="varchar(255)"/>
+            <column name="tsoil1" type="varchar(255)"/>
+            <column name="temp2m" type="varchar(255)"/>
+            <column name="insee" type="varchar(255)"/>
+            <column name="datesaving" type="timestamp"/>
+
+            <!-- Définir d'autres colonnes si nécessaire -->
+        </createTable>
+    </changeSet>
+    <!-- ChangeSet pour créer la séquence "METEO_SEQ" -->
+    <changeSet id="create_sequence_meteo_seq" author="admin">
+        <sql>
+            CREATE SEQUENCE METEO_SEQ START WITH 1 INCREMENT BY 1;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

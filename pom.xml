@@ -57,7 +57,18 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>4.0.1</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>4.20.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-maven-plugin -->
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-maven-plugin</artifactId>
+			<version>3.5.3</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.zalando</groupId>
@@ -82,6 +93,15 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>4.20.0</version>
+				<configuration>
+					<propertyFile>src/main/resources/liquibase.properties</propertyFile>
+					<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
 				</configuration>
 			</plugin>
 		</plugins>

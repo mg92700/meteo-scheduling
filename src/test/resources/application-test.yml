@@ -4,7 +4,7 @@ api:
 spring:
   datasource:
     username: sa
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:testunitairedb
     driverClassName: org.h2.Driver
     password:
   h2:
@@ -23,8 +23,6 @@ spring:
     allow-bean-definition-overriding: true
     banner:
       location: classpath:banner.txt
+# Configuration de Liquibase
   liquibase:
-    enabled: true
-    drop-first: true
-    change-log: classpath:db/changelog/changelog-master.xml
-    default-schema: public
+    enabled: false

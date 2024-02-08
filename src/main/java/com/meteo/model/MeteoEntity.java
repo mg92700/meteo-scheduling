@@ -16,7 +16,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MeteoEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "METEO_SEQ")
+    @SequenceGenerator(name = "METEO_SEQ", sequenceName = "METEO_SEQ", allocationSize = 1)
     private long id;
     private static final AtomicInteger count = new AtomicInteger(-0);
 
