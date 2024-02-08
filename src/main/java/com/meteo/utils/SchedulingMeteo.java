@@ -6,6 +6,7 @@ package com.meteo.utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meteo.dto.RootDto;
 import com.meteo.model.MeteoEntity;
+import com.meteo.services.cities.CityService;
 import com.meteo.services.meteo.MeteoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,83 +25,86 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import java.util.concurrent.CompletableFuture;
 
 @Component
 @EnableScheduling
 @Slf4j
 public class SchedulingMeteo {
 
-
     @Autowired
     MeteoService meteoService;
+
+    @Autowired
+    CityService cityService;
 
     @Autowired
     Environment env;
 
     private static final String USER_AGENT = "Mozilla/5.0";
-
+    private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-
 
     @Scheduled(fixedRate = 60000)
     public void reportCurrentTime() {
         log.info("Début traitement le {}", dateFormat.format(new Date()));
         try {
-            Thread.sleep(30);
-            sendGet();
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            sendGetAsync();
+        } catch (Exception e) {
+            log.error("Une erreur s'est produite lors de l'appel à l'API météo : {}", e.getMessage());
         }
         log.info("Fin traitement le {}", dateFormat.format(new Date()));
-
-    }
-    private List<String> cities() {
-        List<String> list = new ArrayList<>();
-        list.add("93031");
-        list.add("92025");
-        list.add("93078");
-        return list;
     }
 
-    private void sendGet() throws IOException {
-        for (String city : cities()) {
-            String urlApi = env.getProperty("api.url") + env.getProperty("api.token") + "&insee=" + city;
-            URL obj = new URL(urlApi);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+    private void sendGetAsync() {
+        List<String> cities = cityService.GetAllByInsee();
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+
+        for (String city : cities) {
+            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                try {
+                    sendGetForCity(city);
+                } catch (IOException e) {
+                    log.error("Une erreur s'est produite lors de l'appel à l'API météo pour la ville {}: {}", city, e.getMessage());
+                }
+            });
+            futures.add(future);
+        }
+
+        CompletableFuture<Void> allOf = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+        allOf.join(); // Attendre la fin de toutes les tâches asynchrones
+    }
+
+    private void sendGetForCity(String insee) throws IOException {
+        String urlApi = env.getProperty("api.url") + env.getProperty("api.token") + "&insee=" + insee;
+        URL obj = new URL(urlApi);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        try {
             con.setRequestMethod("GET");
             con.setRequestProperty("User-Agent", USER_AGENT);
+
             int responseCode = con.getResponseCode();
             log.info("GET Response Code :: " + responseCode);
-            if (responseCode == HttpURLConnection.HTTP_OK) { // success
-                BufferedReader in = new BufferedReader(new InputStreamReader(
-                        con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
 
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+                    StringBuffer response = new StringBuffer();
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    RootDto root = objectMapper.readValue(response.toString(), RootDto.class);
+                    MeteoEntity meteo = new MeteoEntity(root, insee);
+                    meteoService.saveDepartment(meteo);
+                    log.info(meteo.toString());
                 }
-                in.close();
-                ObjectMapper om = new ObjectMapper();
-                RootDto root = om.readValue(response.toString(), RootDto.class);
-                MeteoEntity meteo = new MeteoEntity(root,city);
-                meteoService.saveDepartment(meteo);
-                // print result
-                log.info(meteo.toString());
-
             } else {
-                log.info("GET request not worked");
+                log.info("GET request not worked for city {}", insee);
             }
+        } finally {
+            con.disconnect();
         }
     }
-
 }
-
-
-
-
 

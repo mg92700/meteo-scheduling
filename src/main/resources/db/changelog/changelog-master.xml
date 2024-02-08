@@ -6,4 +6,5 @@
     <!-- Inclure ici d'autres fichiers changelog si nécessaire -->
 
     <include file="classpath:db/changelog/create-table-meteo.xml"/>
+    <include file="classpath:db/changelog/create-table-cities.xml"/>
 </databaseChangeLog>

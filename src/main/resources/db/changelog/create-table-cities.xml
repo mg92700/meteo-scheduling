@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="create-table-cities" author="admin">
+        <createTable tableName="cities">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="city_name" type="varchar(255)"/>
+            <column name="gps_coordinates" type="varchar(255)"/>
+            <column name="postal_code" type="varchar(10)"/>
+            <column name="insee" type="varchar(255)"/> <!-- Nouvelle colonne 'insee' -->
+        </createTable>
+    </changeSet>
+
+    <!-- Création de la séquence pour l'auto-incrémentation de l'ID -->
+    <changeSet id="create-sequence-for-cities-id" author="admin">
+        <createSequence sequenceName="cities_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <!-- Insertion des données pour les villes -->
+    <changeSet id="insert-cities-data" author="admin">
+        <sql>INSERT INTO cities (city_name, gps_coordinates, postal_code, insee) VALUES ('Colombes', '48.9226° N, 2.2567° E', '92700', '92025');</sql>
+        <sql>INSERT INTO cities (city_name, gps_coordinates, postal_code, insee) VALUES ('Villepinte', '48.9589° N, 2.5434° E', '93420', '93078');</sql>
+        <sql>INSERT INTO cities (city_name, gps_coordinates, postal_code, insee) VALUES ('Épinay-sur-Seine', '48.9533° N, 2.3083° E', '93800', '93031');</sql>
+    </changeSet>
+</databaseChangeLog>
