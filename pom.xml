@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -15,12 +16,19 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>21</java.version>
+		<!-- Versions des dépendances -->
+		<jackson-datatype-jsr310.version>2.15.3</jackson-datatype-jsr310.version>
+		<liquibase-core.version>4.20.0</liquibase-core.version>
+		<liquibase-maven-plugin.version>3.5.3</liquibase-maven-plugin.version>
+		<problem-spring-web.version>0.20.0</problem-spring-web.version>
+		<javax.servlet-api.version>4.0.1</javax.servlet-api.version>
 	</properties>
 	<dependencies>
+		<!-- Dépendances -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>2.15.3</version> <!-- Assurez-vous de spécifier la même version que celle de Jackson utilisée dans votre projet -->
+			<version>${jackson-datatype-jsr310.version}</version>
 		</dependency>
 
 		<dependency>
@@ -55,25 +63,23 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
+			<version>${javax.servlet-api.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>4.20.0</version>
+			<version>${liquibase-core.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-maven-plugin -->
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-maven-plugin</artifactId>
-			<version>3.5.3</version>
+			<version>${liquibase-maven-plugin.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.zalando</groupId>
 			<artifactId>problem-spring-web</artifactId>
-			<version>0.20.0</version>
+			<version>${problem-spring-web.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -98,7 +104,7 @@
 			<plugin>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-maven-plugin</artifactId>
-				<version>4.20.0</version>
+				<version>${liquibase-maven-plugin.version}</version>
 				<configuration>
 					<propertyFile>src/main/resources/liquibase.properties</propertyFile>
 					<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
