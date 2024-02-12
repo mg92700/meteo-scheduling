@@ -1,10 +1,6 @@
 package com.meteo.security;
 
-import com.meteo.security.ErrorRes;
-import com.meteo.security.LoginReq;
-import com.meteo.security.LoginRes;
-import com.meteo.model.User;
-import com.meteo.security.JwtUtil;
+import com.meteo.model.UserEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,12 +30,11 @@ public class AuthController {
     @ResponseBody
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ResponseEntity login(@RequestBody LoginReq loginReq)  {
-
         try {
             Authentication authentication =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getEmail(), loginReq.getPassword()));
             String email = authentication.getName();
-            User user = new User(email,"");
+            UserEntity user = new UserEntity(email,"");
             String token = jwtUtil.createToken(user);
             LoginRes loginRes = new LoginRes(email,token);
 

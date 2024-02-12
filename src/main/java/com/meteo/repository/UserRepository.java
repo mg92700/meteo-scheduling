@@ -1,15 +1,12 @@
 package com.meteo.repository;
 
 
-import com.meteo.model.User;
+import com.meteo.model.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepository {
-    public User findUserByEmail(String email){
-        User user = new User(email,"123456");
-        user.setFirstName("FirstName");
-        user.setLastName("LastName");
-        return user;
-    }
+public interface UserRepository extends JpaRepository<UserEntity, Long > {
+
+    UserEntity findByEmail(String email);
 }

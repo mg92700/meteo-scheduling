@@ -1,6 +1,6 @@
-package com.meteo.services.user;
+package com.meteo.security;
 
-import com.meteo.model.User;
+import com.meteo.model.UserEntity;
 import com.meteo.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(email);
+        UserEntity user = userRepository.findByEmail(email);
         List<String> roles = new ArrayList<>();
         roles.add("USER");
         UserDetails userDetails =
