@@ -20,6 +20,8 @@ public class UserEntity {
 
     private String lastname;
 
+    private String role;
+
     public UserEntity(String email, String password) {
         this.email = email;
         this.password = password;
@@ -69,5 +71,11 @@ public class UserEntity {
         this.lastname = lastname;
     }
 
+    public String getRole() {
+        return role;
+    }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

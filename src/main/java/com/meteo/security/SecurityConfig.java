@@ -56,8 +56,11 @@ public class SecurityConfig  {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/rest/auth/**").permitAll()
+                        .requestMatchers("/api").hasRole("ADMIN")
+                        .requestMatchers("/meteo").hasAnyRole("ADMIN","USER")
                         .anyRequest()
                         .authenticated());
+
 
 
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
