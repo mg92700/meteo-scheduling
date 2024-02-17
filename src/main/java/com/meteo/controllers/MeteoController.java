@@ -16,8 +16,12 @@ import java.util.List;
 @Slf4j
 public class MeteoController {
 
-    @Autowired
-    MeteoService meteoService;
+
+   private final MeteoService meteoService;
+
+    public MeteoController(MeteoService meteoService) {
+        this.meteoService = meteoService;
+    }
 
     @GetMapping(path = "/all")
     public @ResponseBody List<MeteoEntity> getAllMeteo() {

@@ -1,6 +1,7 @@
 package com.meteo.security;
 
 import com.meteo.model.UserEntity;
+import com.meteo.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,11 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-
+    private UserRepository userRepository;
 
     private JwtUtil jwtUtil;
-    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
 
     }
@@ -34,7 +36,7 @@ public class AuthController {
             Authentication authentication =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getEmail(), loginReq.getPassword()));
             String email = authentication.getName();
-            UserEntity user = new UserEntity(email,"");
+            UserEntity user = userRepository.findByEmail(email);
             String token = jwtUtil.createToken(user);
             LoginRes loginRes = new LoginRes(email,token);
 

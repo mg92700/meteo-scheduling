@@ -5,6 +5,7 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,13 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class BatchController {
 
-    @Autowired
-    private JobLauncher jobLauncher;
 
-    @Autowired
-    private Job jobAlert;
+    private final JobLauncher jobLauncher;
+
+    private final Job jobAlert;
+
+    public BatchController(JobLauncher jobLauncher, Job jobAlert) {
+        this.jobLauncher = jobLauncher;
+        this.jobAlert = jobAlert;
+    }
 
     @PostMapping("/launchJob")
     public String launchJob() throws Exception {

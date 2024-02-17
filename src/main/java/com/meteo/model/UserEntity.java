@@ -22,9 +22,10 @@ public class UserEntity {
 
     private String role;
 
-    public UserEntity(String email, String password) {
+    public UserEntity(String email, String password,String role) {
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
 
