@@ -34,21 +34,6 @@ public class SecurityConfig  {
         return authenticationManagerBuilder.build();
     }
 
-/*
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        http.csrf().disable()
-                .authorizeRequests()
-                .requestMatchers("/rest/auth/**").permitAll()
-                .anyRequest().authenticated()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
-    }
-
-*/
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -56,8 +41,8 @@ public class SecurityConfig  {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/rest/auth/**").permitAll()
-                        .requestMatchers("/api").hasRole("ADMIN")
-                        .requestMatchers("/meteo").hasAnyRole("ADMIN","USER")
+                        .requestMatchers("/api/**").hasRole("ADMIN")
+                        .requestMatchers("/meteo/**").hasAnyRole("ADMIN","USER")
                         .anyRequest()
                         .authenticated());
 
@@ -65,14 +50,9 @@ public class SecurityConfig  {
 
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }/*
-    @SuppressWarnings("deprecation")
-    @Bean
-    public NoOpPasswordEncoder passwordEncoder() {
-        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
-    }*/
 
+        return http.build();
+    }
 
 
     @Bean

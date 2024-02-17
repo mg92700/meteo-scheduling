@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -18,7 +19,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
@@ -43,11 +46,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             System.out.println("token : "+accessToken);
             Claims claims = jwtUtil.resolveClaims(request);
 
-            if(claims != null & jwtUtil.validateClaims(claims)){
+            if(claims != null && jwtUtil.validateClaims(claims)){
                 String email = claims.getSubject();
+                List<String> roles = claims.get("roles", List.class);
                 System.out.println("email : "+email);
+                List<SimpleGrantedAuthority> authorities = roles.stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
                 Authentication authentication =
-                        new UsernamePasswordAuthenticationToken(email,"",new ArrayList<>());
+                        new UsernamePasswordAuthenticationToken(email,"",authorities);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 

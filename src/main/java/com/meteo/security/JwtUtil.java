@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +32,9 @@ public class JwtUtil {
         Claims claims = Jwts.claims().setSubject(user.getEmail());
         claims.put("firstName",user.getFirstname());
         claims.put("lastName",user.getLastname());
+        List<String> roles= new ArrayList<>();
+        roles.add("ROLE_"+user.getRole());
+        claims.put("roles",roles);
         Date tokenCreateTime = new Date();
         Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
         return Jwts.builder()
