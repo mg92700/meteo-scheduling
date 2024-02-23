@@ -4,9 +4,13 @@ public class LoginRes {
     private String email;
     private String token;
 
-    public LoginRes(String email, String token) {
+    private String role;
+
+    public LoginRes(String email, String token,String role) {
         this.email = email;
         this.token = token;
+        this.role= role;
+
     }
 
     public String getEmail() {

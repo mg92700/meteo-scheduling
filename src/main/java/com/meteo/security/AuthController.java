@@ -38,7 +38,7 @@ public class AuthController {
             String email = authentication.getName();
             UserEntity user = userRepository.findByEmail(email);
             String token = jwtUtil.createToken(user);
-            LoginRes loginRes = new LoginRes(email,token);
+            LoginRes loginRes = new LoginRes(email,token,user.getRole());
 
             return ResponseEntity.ok(loginRes);
 
