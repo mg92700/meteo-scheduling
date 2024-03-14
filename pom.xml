@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.meteo</groupId>
 	<artifactId>meteo-scheduling</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>meteo</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
