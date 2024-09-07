@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/meteo")
+@RequestMapping("/meteo-batch")
 @Slf4j
 public class MeteoController {
 
@@ -29,7 +29,7 @@ public class MeteoController {
 
     @GetMapping(path ="/byInsee")
     public @ResponseBody Optional<MeteoEntity> geMeteoByInsee(@RequestParam String location) {
-        log.info("Request all meteo");
+        log.info("Request all byInsee");
         return meteoService.all().stream()
                 .filter(c -> c.getInsee().equals(location))
                 .sorted(Comparator.comparing(MeteoEntity::getDatesaving).reversed())

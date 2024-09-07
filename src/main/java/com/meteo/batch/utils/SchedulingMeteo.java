@@ -46,7 +46,8 @@ public class SchedulingMeteo {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 
-    @Scheduled(fixedRate = 600000)
+    @Scheduled(fixedRate = 3600000
+    )
     public void reportCurrentTime() {
         log.info("Début traitement le {}", dateFormat.format(new Date()));
         try {
