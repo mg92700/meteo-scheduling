@@ -4,7 +4,7 @@ api:
 spring:
   datasource:
     username: sa
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:meteobatch
     driverClassName: org.h2.Driver
     password:
 
