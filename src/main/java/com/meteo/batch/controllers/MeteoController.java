@@ -5,6 +5,8 @@ import com.meteo.batch.services.meteo.MeteoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -39,8 +41,9 @@ public class MeteoController {
     @GetMapping(path = "/byDateAndInsee")
     public @ResponseBody Optional<MeteoEntity> getMeteoByDateAndInsee(@RequestParam String date, @RequestParam String location) {
         log.info("Request all byDateAndInsee");
+        LocalDateTime dateTime = LocalDateTime.parse(date, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         return meteoService.all().stream()
-                .filter(c -> c.getDatesaving().equals(date))
+                .filter(c -> c.getDatesaving().equals(dateTime))
                 .filter(c -> c.getInsee().equals(location))
                 .sorted(Comparator.comparing(MeteoEntity::getDatesaving).reversed())
                 .findFirst();
@@ -49,8 +52,9 @@ public class MeteoController {
     @GetMapping(path ="/byDateAndInseeLast")
     public @ResponseBody Optional<MeteoEntity> getMeteoByDateAndInseeLast(@RequestParam String date, @RequestParam String location) {
         log.info("Request all byDateAndInseeLast");
+        LocalDateTime dateTime = LocalDateTime.parse(date, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         return meteoService.all().stream()
-                .filter(c -> c.getDatesaving().equals(date))
+                .filter(c -> c.getDatesaving().equals(dateTime))
                 .filter(c -> c.getInsee().equals(location))
                 .sorted(Comparator.comparing(MeteoEntity::getDatesaving).reversed())
                 .findFirst();
