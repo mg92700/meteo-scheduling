@@ -27,6 +27,35 @@ public class MeteoController {
         return meteoService.all();
     }
 
+    @GetMapping(path = "/byDate")
+    public @ResponseBody List<MeteoEntity> getMeteoByDate(@RequestParam String date) {
+        log.info("Request all byDate");
+        return meteoService.all().stream()
+                .filter(c -> c.getDatesaving().equals(date))
+                .sorted(Comparator.comparing(MeteoEntity::getInsee))
+                .toList();
+    }
+
+    @GetMapping(path = "/byDateAndInsee")
+    public @ResponseBody Optional<MeteoEntity> getMeteoByDateAndInsee(@RequestParam String date, @RequestParam String location) {
+        log.info("Request all byDateAndInsee");
+        return meteoService.all().stream()
+                .filter(c -> c.getDatesaving().equals(date))
+                .filter(c -> c.getInsee().equals(location))
+                .sorted(Comparator.comparing(MeteoEntity::getDatesaving).reversed())
+                .findFirst();
+    }
+
+    @GetMapping(path ="/byDateAndInseeLast")
+    public @ResponseBody Optional<MeteoEntity> getMeteoByDateAndInseeLast(@RequestParam String date, @RequestParam String location) {
+        log.info("Request all byDateAndInseeLast");
+        return meteoService.all().stream()
+                .filter(c -> c.getDatesaving().equals(date))
+                .filter(c -> c.getInsee().equals(location))
+                .sorted(Comparator.comparing(MeteoEntity::getDatesaving).reversed())
+                .findFirst();
+    }
+
     @GetMapping(path ="/byInsee")
     public @ResponseBody Optional<MeteoEntity> geMeteoByInsee(@RequestParam String location) {
         log.info("Request all byInsee");

@@ -9,6 +9,42 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @Configuration
 public class MvcConfiguration extends WebMvcConfigurationSupport {
 
+	// This configuration is for CORS support
+	// Allow all origins, methods and headers
+	// This is only for development purposes
+	// For production, you should configure it properly
+	// For more info, please refer to https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+	// This configuration is for development purposes only
+	// For production, you should configure it properly
+	// For more info, please refer to https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+	// This configuration is for development purposes only
+	// For production, you should configure it properly
+	// For more info, please refer to https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+	// This configuration is for development purposes only
+	// For production, you should configure it properly
+	// For more info, please refer to https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+	// This configuration is for development purposes only
+	// For production, you should configure it properly
+	// For more info, please refer to https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+	// This configuration is for development purposes only
+	// For production, you should configure it properly
+	// For more info, please refer to https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+	// This configuration is for development purposes only
+	// For production, you should configure it properly
+	// For more info, please refer to https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+	// This configuration is for development purposes only
+	// For production, you should configure it properly
+	// For more info, please refer to https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+	// This configuration is for development purposes only
+	// For production, you should configure it properly
+	// For more info, please refer to https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+	// This configuration is for development purposes only
+	// For production, you should configure it properly
+	// For more info, please refer to https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+	// This configuration is for development purposes only
+	// For production, you should configure it properly
+	// For more info, please refer to https://developer.mozilla.org/en-US/docs/Web/HTTP
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
 
