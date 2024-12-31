@@ -6,13 +6,17 @@ api:
   url: https://api.meteo-concept.com/api/forecast/nextHours?token=
 spring:
   datasource:
-    username: sa
-    url: jdbc:h2:mem:meteobatch
-    driverClassName: org.h2.Driver
-    password:
-
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driverClassName: org.postgresql.Driver
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 10
+      idle-timeout: 30000
+      pool-name: SpringBootHikariCP
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   batch:
     jdbc:

@@ -12,8 +12,11 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -22,19 +25,35 @@ import javax.sql.DataSource;
 
 @Configuration
 @Slf4j
-@AllArgsConstructor
 public class MeteoBatchConfiguration extends DefaultBatchConfiguration {
 
     private final ObjectMapper objectMapper;
     private final MeteoService meteoService;
 
+    public MeteoBatchConfiguration(ObjectMapper objectMapper, MeteoService meteoService) {
+        this.objectMapper = objectMapper;
+        this.meteoService = meteoService;
+    }
+
+    @Value("${spring.datasource.url}")
+    private String dataSourceUrl;
+
+    @Value("${spring.datasource.username}")
+    private String dataSourceUsername;
+
+    @Value("${spring.datasource.password}")
+    private String dataSourcePassword;
+
+
     @Override
+    @Primary
     protected DataSource getDataSource() {
-        return new EmbeddedDatabaseBuilder()
-                .addScript("classpath:org/springframework/batch/core/schema-drop-h2.sql")
-                .addScript("classpath:org/springframework/batch/core/schema-h2.sql")
-                .setType(EmbeddedDatabaseType.H2)
-                .build();
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setUrl(dataSourceUrl);
+        dataSource.setUsername(dataSourceUsername);
+        dataSource.setPassword(dataSourcePassword);
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        return dataSource;
     }
     @Bean
     public Job jobAlert(JobRepository jobRepository, Step step) {
