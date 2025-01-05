@@ -10,13 +10,15 @@ services:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    networks:
+      - my-network
     deploy:
       resources:
         limits:
           cpus: '0.50'
           memory: 512M
 
-  spring-boot-app:
+  meteo-batch:
     build:
       context: .
       dockerfile: Dockerfile
@@ -25,9 +27,25 @@ services:
       SPRING_DATASOURCE_USERNAME: myuser
       SPRING_DATASOURCE_PASSWORD: mypassword
     ports:
-      - "8080:8080"
+      - "8082:8082"
     depends_on:
       - postgres
+    networks:
+      - my-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 1G
+
+  api-meteo:
+    build:
+      context: C:\dev\back-end\api-meteo\
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    networks:
+      - my-network
     deploy:
       resources:
         limits:
@@ -36,3 +54,7 @@ services:
 
 volumes:
   postgres-data:
+
+networks:
+  my-network:
+    driver: bridge

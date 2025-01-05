@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8082
 
 api:
   token: 365aa8341e7624d79b34690e4e1d055b7019d6705feb718456ceea44bbc8a4cb

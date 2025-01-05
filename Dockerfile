@@ -8,7 +8,7 @@ ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 
 # Exposer le port que votre application utilise
-EXPOSE 8080
+EXPOSE 8082
 
 # Commande pour exécuter l'application
 ENTRYPOINT ["java", "-jar", "/app.jar"]
