@@ -7,14 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @EnableBatchProcessing
 public class MeteoBatchApp {
-
-
-
 	public static void main(String[] args) {
 		SpringApplication.run(MeteoBatchApp.class, args);
 
 	}
-
 
 
 }

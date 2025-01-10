@@ -32,3 +32,8 @@ spring:
     drop-first: true
     change-log: classpath:db/changelog/changelog-master.xml
     default-schema: public
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
