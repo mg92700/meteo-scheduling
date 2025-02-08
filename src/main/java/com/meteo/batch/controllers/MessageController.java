@@ -19,6 +19,12 @@ public class MessageController {
         this.eventSender = eventSender;
     }
 
+    /**
+     * Send a message to the RabbitMQ queue.
+     * Only for testing purposes.
+     * @param message the message to send
+     * @return a message indicating that the message was sent
+     */
     @GetMapping("/sendMessage")
     public String sendMessage(@RequestParam String message) {
         eventSender.sendEventAlert("Message: " + message);
