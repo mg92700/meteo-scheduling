@@ -5,16 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MessageSender {
+public class EventSender {
 
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public MessageSender(RabbitTemplate rabbitTemplate) {
+    public EventSender(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void sendEmailAlert(String message) {
+    public void sendEventAlert(String message) {
         rabbitTemplate.convertAndSend("alerte-email", message);
     }
 }

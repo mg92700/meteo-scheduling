@@ -80,6 +80,15 @@ services:
       RABBITMQ_PORT: 5672
       RABBITMQ_USERNAME: guest
       RABBITMQ_PASSWORD: guest
+      MAIL_HOST: smtp-mail.outlook.com
+      MAIL_USERNAME:
+      MAIL_PASSWORD:
+      MAIL_SMTP_AUTH: true
+      MAIL_SMTP_STARTTLS_ENABLE: true
+      MAIL_SMTP_CONNECT_TIMEOUT: 5000
+      MAIL_SMTP_TIMEOUT: 3000
+      MAIL_SMTP_WRITE_TIMEOUT: 5000
+      MAIL_STORE_PROTOCOL: pop3
     ports:
       - "8083:8083"
     networks:
