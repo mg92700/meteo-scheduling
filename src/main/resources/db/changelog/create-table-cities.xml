@@ -23,8 +23,43 @@
 
     <!-- Insertion des données pour les villes -->
     <changeSet id="insert-cities-data" author="admin">
-        <sql>INSERT INTO cities (city_name, gps_coordinates, postal_code, insee) VALUES ('Colombes', '48.9226° N, 2.2567° E', '92700', '92025');</sql>
-        <sql>INSERT INTO cities (city_name, gps_coordinates, postal_code, insee) VALUES ('Villepinte', '48.9589° N, 2.5434° E', '93420', '93078');</sql>
-        <sql>INSERT INTO cities (city_name, gps_coordinates, postal_code, insee) VALUES ('Épinay-sur-Seine', '48.9533° N, 2.3083° E', '93800', '93031');</sql>
+        <sql>INSERT INTO cities (city_name, gps_coordinates, postal_code, insee) VALUES
+            ('Paris', '48.8566° N, 2.3522° E', '75000', '75056'),
+            ('Marseille', '43.2965° N, 5.3698° E', '13000', '13055'),
+            ('Lyon', '45.75° N, 4.85° E', '69000', '69123'),
+            ('Toulouse', '43.6047° N, 1.4442° E', '31000', '31555'),
+            ('Nice', '43.7102° N, 7.2620° E', '06000', '06088'),
+            ('Nantes', '47.2186° N, 1.5536° W', '44000', '44109'),
+            ('Strasbourg', '48.5734° N, 7.7521° E', '67000', '67482'),
+            ('Montpellier', '43.6117° N, 3.8767° E', '34000', '34172'),
+            ('Bordeaux', '44.8378° N, 0.5792° W', '33000', '33063'),
+            ('Lille', '50.6292° N, 3.0573° E', '59000', '59350'),
+            ('Rennes', '48.1173° N, 1.6778° W', '35000', '35238'),
+            ('Reims', '49.2583° N, 4.0317° E', '51100', '51454'),
+            ('Le Havre', '49.4944° N, 0.1079° E', '76600', '76351'),
+            ('Saint-Étienne', '45.4397° N, 4.3872° E', '42000', '42218'),
+            ('Toulon', '43.1242° N, 5.9280° E', '83000', '83137'),
+            ('Angers', '47.4784° N, 0.5632° W', '49000', '49007'),
+            ('Nîmes', '43.8367° N, 4.3601° E', '30000', '30189'),
+            ('Villeurbanne', '45.7661° N, 3.0624° E', '69100', '69266'),
+            ('Aix-en-Provence', '43.5297° N, 5.4474° E', '13080', '13001'),
+            ('Brest', '48.3904° N, 4.4861° W', '29200', '29019'),
+            ('Tours', '47.3447° N, 0.6982° E', '37000', '37261'),
+            ('Le Mans', '48.0061° N, 0.1996° E', '72000', '72181'),
+            ('Perpignan', '42.6985° N, 2.8955° E', '66000', '66136'),
+            ('Colombes', '48.9226° N, 2.2567° E', '92700', '92025'),
+            ('Rouen', '49.4431° N, 1.0993° E', '76000', '76540'),
+            ('Montauban', '44.0180° N, 1.3503° E', '82000', '82121'),
+            ('Laval', '48.0680° N, 0.7728° W', '53000', '53106'),
+            ('Antibes', '43.5806° N, 7.1251° E', '06600', '06004'),
+            ('Châlons-en-Champagne', '48.9580° N, 4.3665° E', '51000', '51054'),
+            ('Évry-Courcouronnes', '48.6070° N, 2.4340° E', '91000', '91225'),
+            ('Cannes', '43.5512° N, 7.0174° E', '06400', '06029'),
+            ('Béziers', '43.3445° N, 3.2150° E', '34500', '34032'),
+            ('Quimper', '47.9916° N, 4.0981° W', '29000', '29232'),
+            ('Gap', '44.5584° N, 6.0765° E', '05000', '05062'),
+            ('Montargis', '48.0055° N, 2.7364° E', '45200', '45202');
+        </sql>
+
     </changeSet>
 </databaseChangeLog>

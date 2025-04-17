@@ -1,20 +1,16 @@
 package com.meteo.batch.utils;
 
 
-
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.meteo.batch.services.meteo.MeteoService;
 import com.meteo.batch.dto.RootDto;
 import com.meteo.batch.model.MeteoEntity;
 import com.meteo.batch.services.cities.CityService;
+import com.meteo.batch.services.meteo.MeteoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,8 +42,8 @@ public class SchedulingMeteo {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 
-    @Scheduled(fixedRate = 3600000
-    )
+  /*  @Scheduled(fixedRate = 3600000
+    )*/
     public void reportCurrentTime() {
         log.info("Début traitement le {}", dateFormat.format(new Date()));
         try {
@@ -74,7 +70,7 @@ public class SchedulingMeteo {
         }
 
         CompletableFuture<Void> allOf = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
-        allOf.join(); // Attendre la fin de toutes les tâches asynchrones
+        allOf.join();
     }
 
     public void sendGetForCity(String insee) throws IOException {

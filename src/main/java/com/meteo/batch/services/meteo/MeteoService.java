@@ -2,6 +2,7 @@ package com.meteo.batch.services.meteo;
 
 import com.meteo.batch.model.MeteoEntity;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface MeteoService {
@@ -10,5 +11,7 @@ public interface MeteoService {
     List<MeteoEntity> all();
 
     void saveAll(List<MeteoEntity> meteoEntities);
+
+    MeteoEntity  getMeteoForCity(String insee) throws IOException;
 
 }

@@ -1,78 +1,61 @@
 package com.meteo.batch.job;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meteo.batch.model.MeteoEntity;
 import com.meteo.batch.services.meteo.MeteoService;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.EntityManagerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.support.DefaultBatchConfiguration;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.sql.DataSource;
-
 @Configuration
+@EnableBatchProcessing
 @Slf4j
-public class MeteoBatchConfiguration extends DefaultBatchConfiguration {
+public class MeteoBatchConfiguration {
 
-    private final ObjectMapper objectMapper;
+
     private final MeteoService meteoService;
 
-    public MeteoBatchConfiguration(ObjectMapper objectMapper, MeteoService meteoService) {
-        this.objectMapper = objectMapper;
+    public MeteoBatchConfiguration( MeteoService meteoService) {
         this.meteoService = meteoService;
     }
 
-    @Value("${spring.datasource.url}")
-    private String dataSourceUrl;
-
-    @Value("${spring.datasource.username}")
-    private String dataSourceUsername;
-
-    @Value("${spring.datasource.password}")
-    private String dataSourcePassword;
-
-
-    @Override
-    @Primary
-    protected DataSource getDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl(dataSourceUrl);
-        dataSource.setUsername(dataSourceUsername);
-        dataSource.setPassword(dataSourcePassword);
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        return dataSource;
-    }
     @Bean
-    public Job jobAlert(JobRepository jobRepository, Step step) {
-        return new JobBuilder("jobAlert", jobRepository)
-                .start(step)
+    public Job meteoJob(JobRepository jobRepository, Step step) {
+        return new JobBuilder("meteoJob", jobRepository)
                 .incrementer(new RunIdIncrementer())
+                .start(step)
                 .build();
     }
 
     @Bean
-    public Step step(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) {
-        return new StepBuilder("step", jobRepository).
-                <MeteoEntity, MeteoEntity>chunk(500, platformTransactionManager)
-                .reader(new MeteoItemReader(objectMapper))
-                .processor(new MeteoItemProcessor())
+    public JpaPagingItemReader<String> cityInseeReader(EntityManagerFactory entityManagerFactory) {
+        JpaPagingItemReader<String> reader = new JpaPagingItemReader<>();
+        reader.setQueryString("SELECT c.insee FROM CityEntity c");
+        reader.setEntityManagerFactory(entityManagerFactory);
+        reader.setPageSize(10);
+        reader.setName("cityInseeReader");
+        reader.setSaveState(false);
+        return reader;
+    }
+
+
+
+    @Bean
+    public Step step(JobRepository jobRepository, PlatformTransactionManager transactionManager,EntityManagerFactory entityManagerFactory) {
+        return new StepBuilder("meteoStep", jobRepository)
+                .<String, MeteoEntity>chunk(10, transactionManager)
+                .reader(cityInseeReader(entityManagerFactory))
+                .processor(new MeteoItemProcessor(meteoService))
                 .writer(new MeteoItemWriter(meteoService))
                 .build();
     }
-
-
-
 }
